@@ -1,0 +1,79 @@
+# 🚀 Script Completo – Configuração de Servidor Web PHP + GitHub no Linux
+
+Este documento reúne **todos os passos em um só roteiro**, desde a instalação até a integração com o GitHub.  
+
+> ⚠️ Execute os blocos de comando em ordem, copiando para o terminal.
+
+---
+
+## 🔹 1. Atualizar o sistema e instalar pacotes básicos
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install apache2 php mariadb-server php-mysql phpmyadmin git curl -y
+
+🔹 2. Criar diretório do site e arquivo inicial
+cd /var/www/html
+mkdir meu-site && cd meu-site
+echo "<?php echo 'Olá mundo!'; ?>" > index.php
+
+
+👉 Teste no navegador:
+http://localhost/meu-site
+
+🔹 3. Configurar Git e GitHub (SSH)
+
+Gerar chave SSH:
+
+ssh-keygen -t ed25519 -C "seu-email@exemplo.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+
+
+👉 Copie a chave exibida e cole no GitHub em:
+Settings > SSH and GPG keys
+
+Testar conexão:
+
+ssh -T git@github.com
+
+🔹 4. Iniciar Git no projeto e primeiro commit
+cd /var/www/html/meu-site
+git init
+git checkout -b main
+git add .
+git commit -m "Primeiro commit do meu site PHP"
+
+🔹 5. Conectar ao repositório remoto
+git remote add origin git@github.com:usuario/repositorio.git
+
+
+Se o repositório já tiver arquivos (ex.: README.md):
+
+git pull origin main --allow-unrelated-histories --no-rebase
+
+
+Enviar para o GitHub:
+
+git push -u origin main
+
+🔹 6. Fluxo de trabalho diário
+
+Editar arquivos (exemplo com Sublime):
+
+subl index.php
+
+
+Testar no navegador:
+👉 http://localhost/meu-site
+
+Salvar alterações no GitHub:
+
+git add .
+git commit -m "Descrição da alteração"
+git push
+
+🔹 7. Verificar status dos serviços
+systemctl status apache2
+systemctl status mariadb
+
